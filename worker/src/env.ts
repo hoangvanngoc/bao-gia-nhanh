@@ -1,4 +1,4 @@
-// Mèo Báo Giá: kiểu binding môi trường của Worker
+// Báo Giá Nhanh: kiểu binding môi trường của Worker
 export interface Env {
   DB: D1Database;
   ASSETS: Fetcher;

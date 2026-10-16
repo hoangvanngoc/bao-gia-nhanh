@@ -1,12 +1,12 @@
 {
-  "name": "meo-bao-gia-worker",
+  "name": "bao-gia-nhanh-worker",
   "private": true,
-  "description": "Mèo Báo Giá: công cụ làm báo giá mã nguồn mở cho hộ kinh doanh, doanh nghiệp nhỏ và freelancer Việt Nam",
+  "description": "Báo Giá Nhanh: công cụ làm báo giá mã nguồn mở cho hộ kinh doanh, doanh nghiệp nhỏ và freelancer Việt Nam",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "db:local": "wrangler d1 migrations apply meo-bao-gia --local",
+    "db:local": "wrangler d1 migrations apply bao-gia-nhanh --local",
     "deploy": "wrangler deploy",
     "types": "wrangler types",
     "check": "tsc --noEmit",

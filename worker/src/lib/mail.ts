@@ -1,4 +1,4 @@
-// Mèo Báo Giá: gửi email qua Gmail API (Google Workspace) hoặc Resend. Không có cả hai thì chỉ ghi log
+// Báo Giá Nhanh: gửi email qua Gmail API (Google Workspace) hoặc Resend. Không có cả hai thì chỉ ghi log
 // Thứ tự chọn: đủ GMAIL_CLIENT_ID + GMAIL_CLIENT_SECRET + GMAIL_REFRESH_TOKEN thì dùng Gmail, không thì có RESEND_API_KEY dùng Resend
 import type { Env } from "../env";
 import { b64url, buildMime, textToHtml } from "./mime";

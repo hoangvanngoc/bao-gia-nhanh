@@ -1,4 +1,4 @@
-// Mèo Báo Giá: module dùng chung để tính tiền, đọc số, dựng HTML báo giá
+// Báo Giá Nhanh: module dùng chung để tính tiền, đọc số, dựng HTML báo giá
 // Trình soạn thảo trên trình duyệt và Worker (máy chủ) dùng chung file này. Máy chủ luôn tự tính lại tiền.
 
 /* ---------- Mã số thuế ---------- */

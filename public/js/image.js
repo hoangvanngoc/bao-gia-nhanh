@@ -1,4 +1,4 @@
-// Mèo Báo Giá: thu nhỏ ảnh người dùng chọn (logo, con dấu) thành data URL ngay trên trình duyệt
+// Báo Giá Nhanh: thu nhỏ ảnh người dùng chọn (logo, con dấu) thành data URL ngay trên trình duyệt
 
 /**
  * Đọc file ảnh, thu nhỏ để vừa khung maxW x maxH, trả data URL.

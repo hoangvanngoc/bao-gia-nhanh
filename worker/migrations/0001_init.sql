@@ -1,4 +1,4 @@
--- Mèo Báo Giá: schema ban đầu
+-- Báo Giá Nhanh: schema ban đầu
 
 -- Tài khoản đăng ký bằng email. Không có mật khẩu, chỉ đăng nhập bằng link gửi qua email
 CREATE TABLE accounts (

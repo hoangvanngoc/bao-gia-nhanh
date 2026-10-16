@@ -1,11 +1,11 @@
-// Mèo Báo Giá: đăng nhập bằng link email + phiên. Không dùng mật khẩu. Không lưu token gốc, chỉ lưu mã băm
+// Báo Giá Nhanh: đăng nhập bằng link email + phiên. Không dùng mật khẩu. Không lưu token gốc, chỉ lưu mã băm
 import type { Context, Next } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Account, AppEnv } from "../env";
 import { sendMarketingNotice, setMarketing } from "./marketing";
 import { randomId, sha256, TOKEN_RE } from "./util";
 
-export const COOKIE = "mbg_s";
+export const COOKIE = "bgn_s";
 const SESSION_DAYS = 30;
 const LOGIN_MINUTES = 20;
 

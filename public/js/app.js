@@ -1,4 +1,4 @@
-// Mèo Báo Giá: hộp báo giá
+// Báo Giá Nhanh: hộp báo giá
 import { brandPicker } from "./brand.js";
 import { esc, formatTaxCode, LOGO_MAX, validateTaxCode, vnd } from "./core.js";
 import { logoFromFile } from "./image.js";

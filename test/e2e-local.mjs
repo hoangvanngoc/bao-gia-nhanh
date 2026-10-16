@@ -1,5 +1,5 @@
-// Mèo Báo Giá: kiểm thử tích hợp trên máy
-// Chuẩn bị: cd worker && npx wrangler d1 migrations apply meo-bao-gia --local && npx wrangler dev --var DEV_MODE:1
+// Báo Giá Nhanh: kiểm thử tích hợp trên máy
+// Chuẩn bị: cd worker && npx wrangler d1 migrations apply bao-gia-nhanh --local && npx wrangler dev --var DEV_MODE:1
 // Chạy: node test/e2e-local.mjs http://localhost:8787
 import assert from "node:assert/strict";
 

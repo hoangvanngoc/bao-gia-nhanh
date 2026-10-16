@@ -1,4 +1,4 @@
-// Mèo Báo Giá: lưu đồng ý nhận email giới thiệu, link hủy nhận, email xác nhận kết quả, tác vụ dọn dẹp hằng ngày
+// Báo Giá Nhanh: lưu đồng ý nhận email giới thiệu, link hủy nhận, email xác nhận kết quả, tác vụ dọn dẹp hằng ngày
 import type { Env } from "../env";
 import { marketingCutoffIso, marketingNotice, REQUEST_TTL_MS, UNVERIFIED_TTL_MS, type NoticeKind } from "./consent";
 import { sendMail } from "./mail";

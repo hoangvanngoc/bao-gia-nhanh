@@ -1,4 +1,4 @@
-// Mèo Báo Giá: báo giá được chia sẻ, nút chấp nhận
+// Báo Giá Nhanh: báo giá được chia sẻ, nút chấp nhận
 import { fitSheets } from "./fit.js";
 
 fitSheets();

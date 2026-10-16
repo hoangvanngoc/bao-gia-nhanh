@@ -1,6 +1,6 @@
-# Mèo Báo Giá (meo-bao-gia)
+# Báo Giá Nhanh (bao-gia-nhanh)
 
-<img src="public/logo.svg" width="72" height="72" alt="Logo Mèo Báo Giá">
+<img src="public/logo.svg" width="72" height="72" alt="Logo Báo Giá Nhanh">
 
 Làm báo giá trong một phút, không cần đăng ký.
 
@@ -78,8 +78,8 @@ test/
 cd worker
 npm install
 npx wrangler login
-npx wrangler d1 create meo-bao-gia          # chép database_id in ra vào wrangler.toml
-npx wrangler d1 migrations apply meo-bao-gia --remote
+npx wrangler d1 create bao-gia-nhanh          # chép database_id in ra vào wrangler.toml
+npx wrangler d1 migrations apply bao-gia-nhanh --remote
 # Email qua Gmail API: ba giá trị dưới đây (xem mục "Gửi email")
 npx wrangler secret put GMAIL_CLIENT_ID
 npx wrangler secret put GMAIL_CLIENT_SECRET
@@ -96,7 +96,7 @@ Trong `wrangler.toml`:
 - `PRIVACY_URL`: để trống thì dùng `public/privacy.html`. **Hãy sửa các chỗ `[trong ngoặc vuông]` trong file đó trước khi chạy thật**
 - `DEV_MODE`: môi trường thật bắt buộc là `"0"`
 
-Các link "Mã nguồn" trong `public/*.html` cũng đang trỏ tới `https://github.com/your-account/meo-bao-gia`; khi chạy, trang sẽ tự lấy `CTA_URL` để thay, nhưng nên sửa luôn trong file.
+Các link "Mã nguồn" trong `public/*.html` cũng đang trỏ tới `https://github.com/your-account/bao-gia-nhanh`; khi chạy, trang sẽ tự lấy `CTA_URL` để thay, nhưng nên sửa luôn trong file.
 
 Tác vụ dọn dẹp hằng ngày dùng cron trigger. Gói Workers miễn phí cho tối đa 5 cron trigger mỗi tài khoản; nếu đã dùng đủ 5 thì vẫn deploy được nhưng cron không đăng ký được.
 
@@ -113,7 +113,7 @@ Chuẩn bị Gmail API (tài khoản Google Workspace):
 3. Trong "Credentials", tạo OAuth client ID loại "Desktop app". Client ID và client secret chính là `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`
 4. Đăng nhập bằng tài khoản gửi, chỉ cấp đúng một quyền `https://www.googleapis.com/auth/gmail.send`, lấy refresh token. Ví dụ: trong OAuth 2.0 Playground của Google, bấm biểu tượng bánh răng, chọn "Use your own OAuth credentials", nhập hai giá trị trên, chọn phạm vi `gmail.send`, cấp quyền rồi bấm "Exchange authorization code for tokens"
 5. Đưa ba giá trị vào bằng `npx wrangler secret put`. Không in ra màn hình, không commit lên repo
-6. Đặt `MAIL_FROM` dạng `Mèo Báo Giá <địa chỉ tài khoản đó>`
+6. Đặt `MAIL_FROM` dạng `Báo Giá Nhanh <địa chỉ tài khoản đó>`
 
 ## Chạy thử trên máy
 
@@ -121,7 +121,7 @@ Chuẩn bị Gmail API (tài khoản Google Workspace):
 cd worker
 npm install
 npx wrangler types
-npx wrangler d1 migrations apply meo-bao-gia --local
+npx wrangler d1 migrations apply bao-gia-nhanh --local
 npx wrangler dev --var DEV_MODE:1
 ```
 
@@ -193,10 +193,10 @@ node ../test/e2e-local.mjs http://localhost:8787
 
 ## Nguồn gốc
 
-Mèo Báo Giá được Việt hóa từ dự án mã nguồn mở [gyeonjeok-meo](https://github.com/johndefine404/gyeonjeok-meo) của Define404 (giấy phép MIT). Thông báo bản quyền gốc được giữ trong `LICENSE`.
+Báo Giá Nhanh được Việt hóa từ dự án mã nguồn mở [gyeonjeok-meo](https://github.com/johndefine404/gyeonjeok-meo) của Define404 (giấy phép MIT). Thông báo bản quyền gốc được giữ trong `LICENSE`.
 
 ---
 
 ## English
 
-Mèo Báo Giá is an open-source quotation generator for Vietnamese household businesses, small companies and freelancers. It validates the tax code format (10, 13 or 12 digits), computes VAT at 10%, 8%, 5% or 0% (exclusive or inclusive), handles household businesses that do not itemize VAT and the 10% personal income tax withholding for individuals (from 2,000,000 VND), writes the amount in Vietnamese words, and prints a single A4 page via CSS `@page`. Signed-up users get share links with an "accept" button and a per-business quote request page. Passwordless email login (magic link), hashed tokens, per-account scoping, rate limits. Runs on Cloudflare Workers (Hono) + D1. Mail via the Gmail API or Resend. Tax rules are assumptions, not tax advice. MIT licensed; adapted from Define404's gyeonjeok-meo.
+Báo Giá Nhanh is an open-source quotation generator for Vietnamese household businesses, small companies and freelancers. It validates the tax code format (10, 13 or 12 digits), computes VAT at 10%, 8%, 5% or 0% (exclusive or inclusive), handles household businesses that do not itemize VAT and the 10% personal income tax withholding for individuals (from 2,000,000 VND), writes the amount in Vietnamese words, and prints a single A4 page via CSS `@page`. Signed-up users get share links with an "accept" button and a per-business quote request page. Passwordless email login (magic link), hashed tokens, per-account scoping, rate limits. Runs on Cloudflare Workers (Hono) + D1. Mail via the Gmail API or Resend. Tax rules are assumptions, not tax advice. MIT licensed; adapted from Define404's gyeonjeok-meo.

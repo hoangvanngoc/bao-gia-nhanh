@@ -1,4 +1,4 @@
-// Mèo Báo Giá: thu nhỏ trang A4 (.sheet) cho vừa bề ngang màn hình. Khi in, doc.css trả về cỡ thật
+// Báo Giá Nhanh: thu nhỏ trang A4 (.sheet) cho vừa bề ngang màn hình. Khi in, doc.css trả về cỡ thật
 // Màn hình hẹp hơn 600px: bấm "Xem cỡ thật" để xem 100%, chỉ cuộn ngang bên trong khung tài liệu
 // (bản thân trang không bị tràn ngang)
 const NARROW = matchMedia("(max-width: 599.98px)");

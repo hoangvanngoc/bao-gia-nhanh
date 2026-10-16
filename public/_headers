@@ -1,4 +1,4 @@
-# Mèo Báo Giá: gắn cùng header bảo mật như phản hồi của Worker cho các file tĩnh (giữ khớp với CSP trong worker/src/index.ts)
+# Báo Giá Nhanh: gắn cùng header bảo mật như phản hồi của Worker cho các file tĩnh (giữ khớp với CSP trong worker/src/index.ts)
 /*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'
   X-Content-Type-Options: nosniff

@@ -1,4 +1,4 @@
-# Mèo Báo Giá: biến bí mật khi chạy thử trên máy. Chép file này thành .dev.vars rồi điền (không đưa .dev.vars lên repo)
+# Báo Giá Nhanh: biến bí mật khi chạy thử trên máy. Chép file này thành .dev.vars rồi điền (không đưa .dev.vars lên repo)
 # Môi trường thật dùng: npx wrangler secret put <TÊN>
 
 # Email đăng nhập, thông báo yêu cầu / chấp nhận báo giá. Không có cả Gmail lẫn Resend thì chỉ ghi log

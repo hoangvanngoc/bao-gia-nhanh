@@ -1,4 +1,4 @@
-// Mèo Báo Giá: công cụ làm báo giá cho hộ kinh doanh, doanh nghiệp nhỏ, freelancer Việt Nam, kèm trang nhận yêu cầu báo giá
+// Báo Giá Nhanh: công cụ làm báo giá cho hộ kinh doanh, doanh nghiệp nhỏ, freelancer Việt Nam, kèm trang nhận yêu cầu báo giá
 // Giao diện tĩnh (trình soạn, hộp báo giá) phục vụ từ ../public, Worker này lo API và trang chia sẻ, trang yêu cầu.
 import { Hono } from "hono";
 import type { AppEnv, Env } from "./env";

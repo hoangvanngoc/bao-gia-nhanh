@@ -1,4 +1,4 @@
-// Mèo Báo Giá: JSON API (đăng ký, đăng nhập, thông tin đơn vị, lưu / chia sẻ / chấp nhận báo giá, yêu cầu báo giá)
+// Báo Giá Nhanh: JSON API (đăng ký, đăng nhập, thông tin đơn vị, lưu / chia sẻ / chấp nhận báo giá, yêu cầu báo giá)
 import { Hono } from "hono";
 import type { AppEnv, Env } from "../env";
 import { calcQuote, checkQuote, cleanColor, cleanLogo, digitsOnly, normalizeQuote, renderQuoteHtml, validateTaxCode, vnd } from "../../../public/js/core.js";
@@ -372,7 +372,7 @@ api.post("/r/:slug", async (c) => {
   const biz = await c.env.DB.prepare("SELECT id, name FROM businesses WHERE slug = ?").bind(slug).first<{ id: string; name: string }>();
   if (!biz) return c.json({ error: "not found" }, 404);
 
-  const ipHash = await sha256(`mbg-ip:${c.req.header("CF-Connecting-IP") || "local"}`);
+  const ipHash = await sha256(`bgn-ip:${c.req.header("CF-Connecting-IP") || "local"}`);
   const since = new Date(Date.now() - 10 * 60_000).toISOString();
   const day = new Date(Date.now() - 86_400_000).toISOString();
   const [byIp, byBiz] = await c.env.DB.batch<{ n: number }>([

@@ -1,4 +1,4 @@
-// Mèo Báo Giá: các trang máy chủ dựng (báo giá chia sẻ, trang in, trang nhận yêu cầu, xác nhận đăng nhập)
+// Báo Giá Nhanh: các trang máy chủ dựng (báo giá chia sẻ, trang in, trang nhận yêu cầu, xác nhận đăng nhập)
 import { Hono, type Context } from "hono";
 import type { AppEnv } from "../env";
 import { esc, normalizeQuote, renderQuoteHtml } from "../../../public/js/core.js";
@@ -55,7 +55,7 @@ pages.get("/q/:id", async (c) => {
   <aside class="share-side no-print">${acceptBox}
   <p class="sub small">Cần báo giá cho việc khác? <a href="/r/${esc(r.slug)}">Gửi yêu cầu báo giá tới ${esc(q.supplier.name)}</a></p></aside>
 </main>`,
-      footer: `Báo giá được tạo bằng <a href="/">Mèo Báo Giá</a>, miễn phí và không cần đăng ký.`,
+      footer: `Báo giá được tạo bằng <a href="/">Báo Giá Nhanh</a>, miễn phí và không cần đăng ký.`,
     }),
   );
 });
@@ -100,7 +100,7 @@ pages.get("/r/:slug", async (c) => {
     <p class="msg" role="status"></p>
   </form>
 </main>`,
-      footer: `Trang nhận yêu cầu được tạo bằng <a href="/">Mèo Báo Giá</a>.`,
+      footer: `Trang nhận yêu cầu được tạo bằng <a href="/">Báo Giá Nhanh</a>.`,
     }),
   );
 });

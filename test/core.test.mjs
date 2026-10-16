@@ -1,4 +1,4 @@
-// Mèo Báo Giá: kiểm thử đơn vị module tính toán. Chạy: node --test test/
+// Báo Giá Nhanh: kiểm thử đơn vị module tính toán. Chạy: node --test test/
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {

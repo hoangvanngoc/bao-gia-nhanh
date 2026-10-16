@@ -1,8 +1,8 @@
-// Mèo Báo Giá: dựng email gốc (RFC 5322 + MIME) để gửi qua Gmail API
+// Báo Giá Nhanh: dựng email gốc (RFC 5322 + MIME) để gửi qua Gmail API
 // File này không import module nào khác (để node --test đọc trực tiếp được)
 
 export type MailParts = {
-  from: string; // "Mèo Báo Giá <noreply@example.com>" hoặc "noreply@example.com"
+  from: string; // "Báo Giá Nhanh <noreply@example.com>" hoặc "noreply@example.com"
   to: string;
   subject: string;
   text: string;

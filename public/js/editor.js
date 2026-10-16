@@ -1,4 +1,4 @@
-// Mèo Báo Giá: trình soạn báo giá (nhập liệu, xem trước, in, tạo link chia sẻ)
+// Báo Giá Nhanh: trình soạn báo giá (nhập liệu, xem trước, in, tạo link chia sẻ)
 import { brandPicker } from "./brand.js";
 import { amountInWords, calcQuote, checkQuote, digitsOnly, esc, formatTaxCode, LOGO_MAX, normalizeQuote, PIT_THRESHOLD, renderQuoteHtml, validateTaxCode, vnd } from "./core.js";
 import { fitSheets } from "./fit.js";
@@ -32,9 +32,9 @@ const addDays = (n) => ymd(new Date(Date.now() + n * 86_400_000));
 // Số báo giá khi chưa đăng nhập: đánh số theo ngày ngay trên trình duyệt (khi lưu, máy chủ đánh số lại)
 function draftNumber() {
   const today = ymd(new Date()).replace(/-/g, "");
-  const s = store.get("mbg.seq", { d: "", n: 0 });
+  const s = store.get("bgn.seq", { d: "", n: 0 });
   const n = s.d === today ? s.n + 1 : 1;
-  store.set("mbg.seq", { d: today, n });
+  store.set("bgn.seq", { d: today, n });
   return `BG${today}-${String(n).padStart(3, "0")}`;
 }
 
@@ -91,8 +91,8 @@ function migrate(d) {
   return { ...b, ...d, supplier: { ...b.supplier, ...(d.supplier ?? {}) }, client: { ...b.client, ...(d.client ?? {}) }, rounding: { ...b.rounding, ...(d.rounding ?? {}) } };
 }
 
-let state = migrate(store.get("mbg.draft", null)) ?? sample();
-let seal = store.get("mbg.seal", "");
+let state = migrate(store.get("bgn.draft", null)) ?? sample();
+let seal = store.get("bgn.seal", "");
 
 /* ---------- Ô nhập <-> trạng thái ---------- */
 
@@ -228,14 +228,14 @@ $("[data-seal-file]").addEventListener("change", async (e) => {
     e.target.value = "";
     return alert(err.message);
   }
-  store.set("mbg.seal", seal);
+  store.set("bgn.seal", seal);
   e.target.value = "";
   renderSeal();
   update();
 });
 $("[data-seal-clear]").addEventListener("click", () => {
   seal = "";
-  store.set("mbg.seal", "");
+  store.set("bgn.seal", "");
   renderSeal();
   update();
 });
@@ -297,7 +297,7 @@ function current(keepSeal = true) {
 }
 
 function update() {
-  store.set("mbg.draft", state);
+  store.set("bgn.draft", state);
   for (const el of ed.querySelectorAll("[data-vat]")) el.hidden = state.taxMode !== "vat";
   $("[data-tax-note]").textContent = TAX_NOTE[state.taxMode];
 

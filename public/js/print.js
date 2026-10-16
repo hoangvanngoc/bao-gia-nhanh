@@ -1,4 +1,4 @@
-// Mèo Báo Giá: trang in, nút in và co giãn theo màn hình
+// Báo Giá Nhanh: trang in, nút in và co giãn theo màn hình
 import { fitSheets } from "./fit.js";
 
 fitSheets();

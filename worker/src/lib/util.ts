@@ -1,4 +1,4 @@
-// Mèo Báo Giá: ID ngẫu nhiên, băm, thời gian, làm sạch dữ liệu vào
+// Báo Giá Nhanh: ID ngẫu nhiên, băm, thời gian, làm sạch dữ liệu vào
 
 const B64URL = (bytes: Uint8Array) =>
   btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");

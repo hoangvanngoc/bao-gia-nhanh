@@ -1,5 +1,5 @@
-# Mèo Báo Giá: cấu hình Worker
-name = "meo-bao-gia"
+# Báo Giá Nhanh: cấu hình Worker
+name = "bao-gia-nhanh"
 main = "src/index.ts"
 compatibility_date = "2026-09-01"
 
@@ -8,10 +8,10 @@ compatibility_date = "2026-09-01"
 directory = "../public"
 
 # Tài khoản, thông tin đơn vị, báo giá, yêu cầu báo giá
-# Khi cài, thay bằng database_id lấy từ lệnh: npx wrangler d1 create meo-bao-gia
+# Khi cài, thay bằng database_id lấy từ lệnh: npx wrangler d1 create bao-gia-nhanh
 [[d1_databases]]
 binding = "DB"
-database_name = "meo-bao-gia"
+database_name = "bao-gia-nhanh"
 database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
 
@@ -26,16 +26,16 @@ simple = { limit = 30, period = 60 }
 crons = ["0 3 * * *"]
 
 [vars]
-APP_NAME = "Mèo Báo Giá"
+APP_NAME = "Báo Giá Nhanh"
 # Tên bên gửi email xác nhận đồng ý nhận email giới thiệu. Để trống thì dùng APP_NAME
 OPERATOR_NAME = ""
 # Địa chỉ chạy thật (ví dụ https://baogia.example.com), dùng cho link trong email do tác vụ định kỳ gửi. Để trống thì gửi không kèm link
 APP_URL = ""
 # Link cho nút "Mã nguồn" và dòng "Liên hệ" trong email. Đổi thành repo hoặc trang liên hệ của bạn
-CTA_URL = "https://github.com/your-account/meo-bao-gia"
+CTA_URL = "https://github.com/your-account/bao-gia-nhanh"
 # Link "chính sách bảo vệ dữ liệu cá nhân". Để trống thì dùng trang mẫu /privacy.html (nhớ sửa nội dung trang đó)
 PRIVACY_URL = ""
 # Địa chỉ gửi email. Dùng Gmail API thì là địa chỉ tài khoản Google đó, dùng Resend thì là địa chỉ thuộc tên miền đã xác minh
-MAIL_FROM = "Mèo Báo Giá <onboarding@resend.dev>"
+MAIL_FROM = "Báo Giá Nhanh <onboarding@resend.dev>"
 # 1 = khi chưa cấu hình gửi email thì trả link đăng nhập ngay trong phản hồi. Chỉ dùng khi chạy thử trên máy, môi trường thật bắt buộc là 0
 DEV_MODE = "0"

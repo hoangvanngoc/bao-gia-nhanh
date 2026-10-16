@@ -1,4 +1,4 @@
-// Mèo Báo Giá: kiểm thử đơn vị dựng email gốc (MIME). Chạy: node --test test/
+// Báo Giá Nhanh: kiểm thử đơn vị dựng email gốc (MIME). Chạy: node --test test/
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildMime, encodeAddress, encodeWord, textToHtml } from "../worker/src/lib/mime.ts";
@@ -30,9 +30,9 @@ function parts(raw) {
 
 const LINK = "https://baogia.example.com/auth/verify?t=abc&x=1";
 const base = {
-  from: "Mèo Báo Giá <noreply@example.com>",
+  from: "Báo Giá Nhanh <noreply@example.com>",
   to: "khach@example.com",
-  subject: "[Mèo Báo Giá] Link đăng nhập: kiểm tra tiêu đề tiếng Việt có dấu dài vẫn được chia đúng",
+  subject: "[Báo Giá Nhanh] Link đăng nhập: kiểm tra tiêu đề tiếng Việt có dấu dài vẫn được chia đúng",
   text: `Bấm vào link dưới đây để đăng nhập.\n\n${LINK}`,
   html: textToHtml(`Bấm vào link dưới đây để đăng nhập.\n\n${LINK}`),
 };
@@ -49,7 +49,7 @@ test("Tiêu đề tiếng Việt được mã hóa UTF-8 encoded word và giải
 test("Tên người gửi được mã hóa, địa chỉ giữ nguyên", () => {
   const { headers } = parse(buildMime(base));
   assert.match(headers.from, /^=\?UTF-8\?B\?[^?]+\?= <noreply@example\.com>$/);
-  assert.equal(decodeWords(headers.from), "Mèo Báo Giá <noreply@example.com>");
+  assert.equal(decodeWords(headers.from), "Báo Giá Nhanh <noreply@example.com>");
   assert.equal(encodeAddress("Meo Bao Gia <noreply@example.com>"), '"Meo Bao Gia" <noreply@example.com>');
   assert.equal(encodeAddress("noreply@example.com"), "noreply@example.com");
 });

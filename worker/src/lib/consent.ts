@@ -1,4 +1,4 @@
-// Mèo Báo Giá: đồng ý nhận email giới thiệu (hết hạn sau 2 năm, email xác nhận kết quả) và thời gian lưu dữ liệu
+// Báo Giá Nhanh: đồng ý nhận email giới thiệu (hết hạn sau 2 năm, email xác nhận kết quả) và thời gian lưu dữ liệu
 // Hết hạn 2 năm là thực hành tốt để định kỳ hỏi lại người dùng, không phải quy định bắt buộc. Muốn bỏ thì sửa MARKETING_TTL_MS.
 
 /** Đồng ý nhận email giới thiệu tự tắt sau 2 năm kể từ ngày đồng ý (hoặc đồng ý lại) */

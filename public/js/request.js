@@ -1,4 +1,4 @@
-// Mèo Báo Giá: trang nhận yêu cầu báo giá, khách gửi yêu cầu
+// Báo Giá Nhanh: trang nhận yêu cầu báo giá, khách gửi yêu cầu
 const form = document.querySelector("form[data-request]");
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();

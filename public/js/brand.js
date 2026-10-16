@@ -1,4 +1,4 @@
-// Mèo Báo Giá: ô chọn màu chủ đạo (bảng màu gợi ý + màu tự chọn), cảnh báo khi màu quá nhạt
+// Báo Giá Nhanh: ô chọn màu chủ đạo (bảng màu gợi ý + màu tự chọn), cảnh báo khi màu quá nhạt
 import { BRAND_SWATCHES, DEFAULT_BRAND, contrastOnWhite } from "./core.js";
 
 /**

@@ -1,4 +1,4 @@
-// Mèo Báo Giá: khung chung cho các trang máy chủ dựng (báo giá chia sẻ, trang in, trang yêu cầu, xác nhận đăng nhập)
+// Báo Giá Nhanh: khung chung cho các trang máy chủ dựng (báo giá chia sẻ, trang in, trang yêu cầu, xác nhận đăng nhập)
 import { esc } from "../../../public/js/core.js";
 
 const FONT = "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap";
@@ -44,6 +44,6 @@ ${js}
 export function notFoundPage(msg = "Không tìm thấy trang này"): string {
   return page({
     title: "Không tìm thấy",
-    body: `<main class="wrap narrow"><h1 class="page-h">${esc(msg)}</h1><p class="sub">Hãy kiểm tra lại đường dẫn.</p><p><a class="btn" href="/">Về Mèo Báo Giá</a></p></main>`,
+    body: `<main class="wrap narrow"><h1 class="page-h">${esc(msg)}</h1><p class="sub">Hãy kiểm tra lại đường dẫn.</p><p><a class="btn" href="/">Về Báo Giá Nhanh</a></p></main>`,
   });
 }

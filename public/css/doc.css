@@ -1,4 +1,4 @@
-/* Mèo Báo Giá: mẫu báo giá một trang A4, dùng chung cho màn hình và bản in */
+/* Báo Giá Nhanh: mẫu báo giá một trang A4, dùng chung cho màn hình và bản in */
 @page { size: A4; margin: 0; }
 
 .doc {
