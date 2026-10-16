@@ -92,11 +92,11 @@ npx wrangler deploy
 Trong `wrangler.toml`:
 
 - `MAIL_FROM`: địa chỉ gửi (Gmail API thì là địa chỉ tài khoản Google đó, Resend thì là địa chỉ thuộc tên miền đã xác minh)
-- `CTA_URL`: đổi `your-account` thành tài khoản GitHub của bạn, hoặc trỏ tới trang liên hệ
+- `CTA_URL`: nếu bạn fork, đổi thành repo hoặc trang liên hệ của bạn
 - `PRIVACY_URL`: để trống thì dùng `public/privacy.html`. **Hãy sửa các chỗ `[trong ngoặc vuông]` trong file đó trước khi chạy thật**
 - `DEV_MODE`: môi trường thật bắt buộc là `"0"`
 
-Các link "Mã nguồn" trong `public/*.html` cũng đang trỏ tới `https://github.com/your-account/bao-gia-nhanh`; khi chạy, trang sẽ tự lấy `CTA_URL` để thay, nhưng nên sửa luôn trong file.
+Các link "Mã nguồn" trong `public/*.html` đang trỏ tới `https://github.com/hoangvanngoc/bao-gia-nhanh`; khi chạy, trang tự lấy `CTA_URL` để thay. Nếu fork, nên sửa luôn trong file.
 
 Tác vụ dọn dẹp hằng ngày dùng cron trigger. Gói Workers miễn phí cho tối đa 5 cron trigger mỗi tài khoản; nếu đã dùng đủ 5 thì vẫn deploy được nhưng cron không đăng ký được.
 

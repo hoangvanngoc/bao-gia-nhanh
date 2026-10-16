@@ -32,7 +32,7 @@ OPERATOR_NAME = ""
 # Địa chỉ chạy thật (ví dụ https://baogia.example.com), dùng cho link trong email do tác vụ định kỳ gửi. Để trống thì gửi không kèm link
 APP_URL = ""
 # Link cho nút "Mã nguồn" và dòng "Liên hệ" trong email. Đổi thành repo hoặc trang liên hệ của bạn
-CTA_URL = "https://github.com/your-account/bao-gia-nhanh"
+CTA_URL = "https://github.com/hoangvanngoc/bao-gia-nhanh"
 # Link "chính sách bảo vệ dữ liệu cá nhân". Để trống thì dùng trang mẫu /privacy.html (nhớ sửa nội dung trang đó)
 PRIVACY_URL = ""
 # Địa chỉ gửi email. Dùng Gmail API thì là địa chỉ tài khoản Google đó, dùng Resend thì là địa chỉ thuộc tên miền đã xác minh
