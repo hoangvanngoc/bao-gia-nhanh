@@ -47,7 +47,7 @@ pages.get("/q/:id", async (c) => {
       js: ["/js/share.js"],
       bodyClass: "share-page",
       body: `<header class="share-head wrap no-print">
-  <div><p class="eyebrow">Báo giá ${esc(q.number)}</p><h1 class="page-h">Báo giá từ ${esc(q.supplier.name)}</h1></div>
+  <div class="share-brand">${q.supplier.logo ? `<img src="${esc(q.supplier.logo)}" alt="${esc(q.supplier.name)}">` : ""}<div><p class="eyebrow">Báo giá ${esc(q.number)}</p><h1 class="page-h">Báo giá từ ${esc(q.supplier.name)}</h1></div></div>
   <div class="share-actions"><a class="btn ghost" href="/q/${esc(c.req.param("id"))}/print">Xem bản in</a></div>
 </header>
 <main class="wrap share-main">
@@ -70,7 +70,7 @@ pages.get("/q/:id/print", async (c) => {
 pages.get("/r/:slug", async (c) => {
   const slug = c.req.param("slug");
   const b = SLUG_RE.test(slug)
-    ? await c.env.DB.prepare("SELECT name, intro FROM businesses WHERE slug = ?").bind(slug).first<{ name: string; intro: string }>()
+    ? await c.env.DB.prepare("SELECT name, intro, logo, tagline FROM businesses WHERE slug = ?").bind(slug).first<{ name: string; intro: string; logo: string; tagline: string }>()
     : null;
   if (!b) return c.html(notFoundPage("Không tìm thấy trang nhận yêu cầu báo giá"), 404);
   return c.html(
@@ -78,8 +78,8 @@ pages.get("/r/:slug", async (c) => {
       title: `Yêu cầu báo giá · ${b.name}`,
       js: ["/js/request.js"],
       body: `<main class="wrap narrow request">
-  <p class="eyebrow">Yêu cầu báo giá</p>
-  <h1 class="page-h">Gửi yêu cầu báo giá tới ${esc(b.name)}</h1>
+  <div class="share-brand">${b.logo ? `<img src="${esc(b.logo)}" alt="${esc(b.name)}">` : ""}<div><p class="eyebrow">${esc(b.tagline) || "Yêu cầu báo giá"}</p>
+  <h1 class="page-h">Gửi yêu cầu báo giá tới ${esc(b.name)}</h1></div></div>
   <p class="sub">${esc(b.intro) || "Hãy cho biết công việc cần làm, thời gian và ngân sách dự kiến. Chúng tôi sẽ xem và gửi báo giá cho bạn."}</p>
   <form class="card form" data-request="${esc(slug)}">
     <label>Họ tên hoặc tên công ty<input name="name" required maxlength="60" autocomplete="name"></label>

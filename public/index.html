@@ -90,6 +90,27 @@
       </section>
 
       <section class="panel">
+        <h2>Thương hiệu trên báo giá</h2>
+        <div class="body">
+          <div class="full">
+            <label>Logo (tùy chọn, PNG nền trong suốt là đẹp nhất)<input type="file" accept="image/png,image/jpeg,image/webp" data-logo-file></label>
+            <div class="seal-row">
+              <img class="logo-preview" data-logo-preview alt="" hidden>
+              <button class="btn link" type="button" data-logo-clear hidden>Xóa logo</button>
+              <span class="hint" data-logo-hint>Logo in ở đầu báo giá và hiện trên link chia sẻ.</span>
+            </div>
+          </div>
+          <div class="full">
+            <span class="field-label" id="brand-label">Màu chủ đạo</span>
+            <div class="swatches" role="group" aria-labelledby="brand-label" data-swatches></div>
+            <span class="hint" data-color-hint></span>
+          </div>
+          <label>Khẩu hiệu / mô tả ngắn<input name="s.tagline" maxlength="120" placeholder="Thiết kế và in ấn trọn gói"></label>
+          <label>Website / fanpage<input name="s.website" maxlength="120" placeholder="example.com"></label>
+        </div>
+      </section>
+
+      <section class="panel">
         <h2>Khách hàng (bên nhận)</h2>
         <div class="body">
           <label class="full">Tên công ty hoặc họ tên<input name="c.name" maxlength="120"></label>
@@ -119,7 +140,7 @@
           <fieldset class="consent">
             <legend>Đồng ý xử lý dữ liệu cá nhân (bắt buộc)</legend>
             <p>Mục đích: đăng nhập, lưu và chia sẻ báo giá, gửi email báo khi có yêu cầu báo giá hoặc khi khách chấp nhận báo giá</p>
-            <p>Dữ liệu thu thập: email, thông tin đơn vị (tên, người đại diện, mã số thuế, địa chỉ, điện thoại, tài khoản ngân hàng), các báo giá bạn lưu, các yêu cầu báo giá bạn nhận</p>
+            <p>Dữ liệu thu thập: email, thông tin đơn vị (tên, người đại diện, mã số thuế, địa chỉ, điện thoại, tài khoản ngân hàng, logo, màu thương hiệu, khẩu hiệu, website), các báo giá bạn lưu, các yêu cầu báo giá bạn nhận</p>
             <p>Thời gian lưu: đến khi bạn xóa tài khoản, khi đó mọi dữ liệu bị xóa ngay. Nếu không hoàn tất đăng nhập qua link trong 7 ngày, email sẽ bị xóa. Yêu cầu báo giá nhận được tự xóa sau 1 năm kể từ ngày gửi</p>
             <p>Bên xử lý và chuyển dữ liệu ra nước ngoài: máy chủ và lưu trữ do Cloudflare, Inc. (Hoa Kỳ), gửi email do Google LLC (Hoa Kỳ). Xem thêm tại <a href="/privacy.html" data-privacy>chính sách bảo vệ dữ liệu cá nhân</a>.</p>
             <p>Bạn có quyền không đồng ý. Khi đó bạn không đăng ký được và không dùng được link chia sẻ, lưu thông tin đơn vị, trang nhận yêu cầu báo giá. Soạn và in báo giá vẫn dùng được mà không cần đăng ký.</p>

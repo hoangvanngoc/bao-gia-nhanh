@@ -1,6 +1,8 @@
 // Mèo Báo Giá: trình soạn báo giá (nhập liệu, xem trước, in, tạo link chia sẻ)
-import { amountInWords, calcQuote, checkQuote, digitsOnly, esc, formatTaxCode, normalizeQuote, PIT_THRESHOLD, renderQuoteHtml, validateTaxCode, vnd } from "./core.js";
+import { brandPicker } from "./brand.js";
+import { amountInWords, calcQuote, checkQuote, digitsOnly, esc, formatTaxCode, LOGO_MAX, normalizeQuote, PIT_THRESHOLD, renderQuoteHtml, validateTaxCode, vnd } from "./core.js";
 import { fitSheets } from "./fit.js";
+import { logoFromFile, sealFromFile } from "./image.js";
 
 const $ = (s, el = document) => el.querySelector(s);
 const ed = $("#editor");
@@ -36,7 +38,9 @@ function draftNumber() {
   return `BG${today}-${String(n).padStart(3, "0")}`;
 }
 
-const EMPTY_SUPPLIER = { name: "", owner: "", taxCode: "", address: "", phone: "", email: "", bank: "" };
+const EMPTY_SUPPLIER = { name: "", owner: "", taxCode: "", address: "", phone: "", email: "", bank: "", website: "", tagline: "", brandColor: "", logo: "" };
+// Các trường đơn vị lấy từ "Hộp báo giá" khi đã đăng nhập
+const SUPPLIER_KEYS = Object.keys(EMPTY_SUPPLIER);
 
 function blank(supplier) {
   return {
@@ -66,6 +70,9 @@ function sample() {
     phone: "0900 000 000",
     email: "hello@example.com",
     bank: "0000000000 - Ngân hàng ... - NGUYEN VAN A",
+    website: "example.com",
+    tagline: "Thiết kế và in ấn trọn gói",
+    brandColor: "#0f766e",
   });
   q.client = { name: "Quán Cà Phê Mẫu", person: "Chị B", phone: "0280 000 0000", address: "TP. Hồ Chí Minh" };
   q.items = [
@@ -102,6 +109,8 @@ const simple = {
   "s.phone": ["supplier", "phone"],
   "s.email": ["supplier", "email"],
   "s.bank": ["supplier", "bank"],
+  "s.website": ["supplier", "website"],
+  "s.tagline": ["supplier", "tagline"],
   "c.name": ["client", "name"],
   "c.person": ["client", "person"],
   "c.phone": ["client", "phone"],
@@ -120,6 +129,8 @@ function fillForm() {
   field("roundUnit").value = String(state.rounding.unit);
   renderItems();
   renderSeal();
+  renderLogo();
+  refreshBrand();
 }
 
 ed.addEventListener("input", (e) => {
@@ -211,16 +222,12 @@ function renderSeal() {
 $("[data-seal-file]").addEventListener("change", async (e) => {
   const file = e.target.files?.[0];
   if (!file) return;
-  if (file.size > 5_000_000) return alert("Hãy chọn ảnh nhỏ hơn 5MB");
-  const bmp = await createImageBitmap(file).catch(() => null);
-  if (!bmp) return alert("Không đọc được ảnh");
-  const max = 320;
-  const r = Math.min(1, max / Math.max(bmp.width, bmp.height));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.round(bmp.width * r);
-  canvas.height = Math.round(bmp.height * r);
-  canvas.getContext("2d").drawImage(bmp, 0, 0, canvas.width, canvas.height);
-  seal = canvas.toDataURL("image/png");
+  try {
+    seal = await sealFromFile(file);
+  } catch (err) {
+    e.target.value = "";
+    return alert(err.message);
+  }
   store.set("mbg.seal", seal);
   e.target.value = "";
   renderSeal();
@@ -232,6 +239,48 @@ $("[data-seal-clear]").addEventListener("click", () => {
   renderSeal();
   update();
 });
+
+/* ---------- Thương hiệu: logo (lưu cùng báo giá trên máy chủ), màu chủ đạo ---------- */
+
+function renderLogo() {
+  const img = $("[data-logo-preview]");
+  const logo = state.supplier.logo;
+  img.hidden = !logo;
+  $("[data-logo-clear]").hidden = !logo;
+  if (logo) img.src = logo;
+}
+
+$("[data-logo-file]").addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  const hint = $("[data-logo-hint]");
+  try {
+    state.supplier.logo = await logoFromFile(file, LOGO_MAX);
+    hint.className = "hint";
+    hint.textContent = "Logo in ở đầu báo giá và hiện trên link chia sẻ.";
+  } catch (err) {
+    hint.className = "hint bad";
+    hint.textContent = err.message;
+  }
+  e.target.value = "";
+  renderLogo();
+  update();
+});
+$("[data-logo-clear]").addEventListener("click", () => {
+  state.supplier.logo = "";
+  renderLogo();
+  update();
+});
+
+const refreshBrand = brandPicker(
+  $("[data-swatches]"),
+  $("[data-color-hint]"),
+  () => state.supplier.brandColor,
+  (c) => {
+    state.supplier.brandColor = c;
+    update();
+  },
+);
 
 /* ---------- Xem trước và tổng tiền ---------- */
 
@@ -383,7 +432,7 @@ fetch("/api/me")
     const b = me.business;
     // Đã đăng nhập và có thông tin đơn vị: điền vào nếu ô đơn vị đang trống hoặc còn là dữ liệu mẫu
     if (b && (!state.supplier.name || state.supplier.name === SAMPLE_NAME)) {
-      state.supplier = { name: b.name, owner: b.owner, taxCode: b.taxCode, address: b.address, phone: b.phone, email: b.email, bank: b.bank };
+      state.supplier = Object.fromEntries(SUPPLIER_KEYS.map((k) => [k, b[k] ?? ""]));
       fillForm();
       update();
     }

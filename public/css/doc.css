@@ -16,15 +16,24 @@
   position: relative;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
+  --brand: #111111;
+  --brand-soft: color-mix(in srgb, var(--brand) 9%, #fff);
 }
 .doc table { border-collapse: collapse; width: 100%; }
 .doc th, .doc td { border: 1px solid #3a3a3a; padding: 1.6mm 2mm; vertical-align: middle; text-align: left; }
-.doc th { background: #F1F1EF; font-weight: 600; white-space: nowrap; }
+.doc th { background: var(--brand-soft); font-weight: 600; white-space: nowrap; }
 .doc .n { text-align: right; white-space: nowrap; }
 .doc .c { text-align: center; }
 
+.brand-bar { display: flex; align-items: center; justify-content: space-between; gap: 6mm; padding-bottom: 3mm; margin-bottom: 5mm; border-bottom: 2px solid var(--brand); }
+.brand-logo { max-height: 18mm; max-width: 60mm; object-fit: contain; }
+.brand-text { display: flex; flex-direction: column; align-items: flex-end; text-align: right; margin-left: auto; }
+.brand-name { font-size: 12pt; font-weight: 800; color: var(--brand); }
+.brand-tagline { color: #444; }
+.brand-web { color: #444; font-size: 8.5pt; }
+
 .doc-head { display: flex; flex-direction: column; align-items: center; gap: 4mm; margin-bottom: 6mm; }
-.doc-title { margin: 0; font-size: 24pt; font-weight: 800; letter-spacing: .12em; padding-left: .12em; border-bottom: 3px double #111; line-height: 1.3; }
+.doc-title { margin: 0; font-size: 24pt; font-weight: 800; letter-spacing: .12em; padding-left: .12em; color: var(--brand); border-bottom: 3px double var(--brand); line-height: 1.3; }
 .doc-meta { display: flex; gap: 8mm; margin: 0; font-size: 9pt; }
 .doc-meta div { display: flex; gap: 2mm; }
 .doc-meta dt { color: #555; }
@@ -36,9 +45,9 @@
 .party .to { font-size: 11pt; font-weight: 700; }
 .party .lead-in { border: 0; padding-top: 3mm; color: #333; font-style: italic; }
 
-.grand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1mm 4mm; border: 2px solid #111; padding: 3mm 4mm; margin-bottom: 4mm; }
+.grand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1mm 4mm; border: 2px solid var(--brand); padding: 3mm 4mm; margin-bottom: 4mm; }
 .grand-label { font-weight: 800; text-transform: uppercase; }
-.grand-num { font-size: 13pt; }
+.grand-num { font-size: 13pt; color: var(--brand); }
 .grand-note { color: #333; }
 .grand-words { flex-basis: 100%; font-style: italic; }
 
@@ -51,13 +60,13 @@
 .notes h2 { margin: 0 0 1mm; font-size: 9.5pt; }
 .notes p { margin: 0; white-space: normal; }
 .sums th { width: 40mm; }
-.sums .strong th, .sums .strong td { font-weight: 800; font-size: 10.5pt; background: #F1F1EF; }
+.sums .strong th, .sums .strong td { font-weight: 800; font-size: 10.5pt; background: var(--brand-soft); }
 
 .sign { display: flex; justify-content: flex-end; margin-top: 6mm; }
 .sign-box { width: 74mm; text-align: center; }
 .sign-box p { margin: 0; }
 .sign-date { font-style: italic; color: #333; margin-bottom: 1mm !important; }
-.sign-role { font-weight: 800; text-transform: uppercase; }
+.sign-role { font-weight: 800; text-transform: uppercase; color: var(--brand); }
 .sign-hint { font-style: italic; color: #555; font-size: 8.5pt; }
 .sign-space { height: 24mm; display: flex; align-items: center; justify-content: center; }
 .seal { max-width: 26mm; max-height: 24mm; object-fit: contain; mix-blend-mode: multiply; }

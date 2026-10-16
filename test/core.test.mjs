@@ -10,6 +10,11 @@ import {
   roundDiv,
   normalizeQuote,
   renderQuoteHtml,
+  cleanLogo,
+  cleanColor,
+  contrastOnWhite,
+  LOGO_MAX,
+  BRAND_SWATCHES,
 } from "../public/js/core.js";
 
 test("Mã số thuế: đúng định dạng", () => {
@@ -146,4 +151,37 @@ test("HTML báo giá: tiêu đề, bằng chữ, thuế suất", () => {
   const html = renderQuoteHtml(q);
   for (const s of ["BÁO GIÁ", "Thuế GTGT (8%)", "Bằng chữ: Một triệu không trăm tám mươi nghìn đồng.", "1.080.000"]) assert.ok(html.includes(s), s);
   assert.ok(!html.includes(String.fromCharCode(0x2014)), "không có dấu gạch dài");
+});
+
+test("Thương hiệu: logo, màu, khẩu hiệu, website", () => {
+  const logo = "data:image/png;base64,iVBORw0KGgo=";
+  const q = normalizeQuote({
+    ...base(),
+    supplier: { name: "Studio A", logo, brandColor: "#0F766E", tagline: "In ấn trọn gói", website: "example.com" },
+    client: { name: "B" },
+    items: [{ name: "x", qty: 1, unitPrice: 1000 }],
+  });
+  assert.equal(q.supplier.logo, logo, "logo được giữ để link chia sẻ có logo");
+  assert.equal(q.supplier.brandColor, "#0f766e");
+  const html = renderQuoteHtml(q);
+  for (const s of ['class="brand-bar"', `src="${logo}"`, "In ấn trọn gói", "example.com", 'style="--brand:#0f766e"']) assert.ok(html.includes(s), s);
+});
+
+test("Thương hiệu: chặn logo, màu không hợp lệ; không có thì không hiện dải thương hiệu", () => {
+  const bad = normalizeQuote({
+    supplier: { name: "A", logo: 'data:image/svg+xml;base64,PHN2Zz4=', brandColor: "red;}body{x" },
+  });
+  assert.equal(bad.supplier.logo, "", "không nhận SVG");
+  assert.equal(bad.supplier.brandColor, "");
+  assert.equal(cleanLogo("data:image/png;base64," + "A".repeat(LOGO_MAX)), "", "quá lớn");
+  assert.equal(cleanColor("#ABCDEF"), "#abcdef");
+  const html = renderQuoteHtml(normalizeQuote({ ...base(), supplier: { name: "A" }, client: { name: "B" }, items: [{ name: "x", qty: 1, unitPrice: 1 }] }));
+  assert.ok(!html.includes("brand-bar"));
+  assert.ok(!html.includes("--brand:"));
+});
+
+test("Độ tương phản màu", () => {
+  assert.ok(contrastOnWhite("#111111") > 15);
+  assert.ok(contrastOnWhite("#ffff00") < 4.5);
+  for (const c of BRAND_SWATCHES) assert.ok(contrastOnWhite(c) >= 4.5, `màu gợi ý ${c} đủ tương phản`);
 });

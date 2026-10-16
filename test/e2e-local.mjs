@@ -15,7 +15,7 @@ const step = async (name, fn) => {
   }
 };
 
-async function call(path, { method = "GET", token, body, headers = {} } = {}) {
+async function call(path, { method = "GET", token, body, headers = {} } = {}, retried = false) {
   const res = await fetch(BASE + path, {
     method,
     redirect: "manual",
@@ -23,6 +23,11 @@ async function call(path, { method = "GET", token, body, headers = {} } = {}) {
     body: body ? JSON.stringify(body) : undefined,
   });
   const text = await res.text();
+  // Giới hạn chung 30 request ghi / phút / người truy cập: cả bộ test chạy từ một máy nên chờ hết phút rồi thử lại
+  if (res.status === 429 && text.includes("thao tác quá nhanh") && !retried) {
+    await new Promise((r) => setTimeout(r, 61_000));
+    return call(path, { method, token, body, headers }, true);
+  }
   let json = null;
   try {
     json = JSON.parse(text);
@@ -126,6 +131,21 @@ await step("A có thông tin đơn vị và trang nhận yêu cầu", async () =
   const page = await call(`/r/${slug}`);
   assert.equal(page.status, 200);
   assert.ok(page.text.includes("Nội Thất Mẫu"));
+});
+await step("Thương hiệu: lưu logo, màu, khẩu hiệu; hiện trên trang yêu cầu và link chia sẻ", async () => {
+  const logo = "data:image/png;base64,iVBORw0KGgo=";
+  const bad = await call("/api/business", { method: "PUT", token: A, body: { name: "Nội Thất Mẫu", logo: "data:image/svg+xml;base64,PHN2Zz4=" } });
+  assert.equal(bad.status, 400, "logo SVG bị từ chối");
+  const r = await call("/api/business", { method: "PUT", token: A, body: { name: "Nội Thất Mẫu", taxCode: "0100109106", logo, brandColor: "#1D4ED8", tagline: "Thi công trọn gói", website: "example.com" } });
+  assert.equal(r.status, 200, r.text);
+  assert.equal(r.json.business.logo, logo);
+  assert.equal(r.json.business.brandColor, "#1d4ed8");
+  const page = await call(`/r/${slug}`);
+  assert.ok(page.text.includes(logo) && page.text.includes("Thi công trọn gói"));
+  const saved = await call("/api/quotes", { method: "POST", token: A, body: { ...quote, supplier: { ...quote.supplier, logo, brandColor: "#1d4ed8", tagline: "Thi công trọn gói" } } });
+  assert.equal(saved.status, 201, saved.text);
+  const share = await call(`/q/${saved.json.id}`);
+  for (const t of ["brand-bar", "--brand:#1d4ed8", "Thi công trọn gói", "share-brand"]) assert.ok(share.text.includes(t), t);
 });
 await step("Yêu cầu báo giá: thiếu đồng ý trả 400, đủ thì nhận", async () => {
   const no = await call(`/api/r/${slug}`, { method: "POST", body: { name: "Khách", contact: "0911 111 222", details: "Sửa bếp", consent: false } });

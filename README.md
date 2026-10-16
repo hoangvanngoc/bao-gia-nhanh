@@ -18,6 +18,7 @@ Trạng thái: v0.1, bản Việt hóa. Kiểm thử đơn vị đã chạy; ch�
 | Tính năng | Mô tả |
 |---|---|
 | Trình soạn báo giá | Đơn vị báo giá (tên, người đại diện, mã số thuế, địa chỉ, liên hệ, tài khoản ngân hàng, ảnh con dấu / chữ ký), khách hàng, hạng mục (tên, ĐVT, số lượng, đơn giá), ghi chú, ngày hiệu lực. Xem trước A4 cập nhật theo từng ô nhập |
+| Thương hiệu | Logo (lưu trên máy chủ, nên có cả trên link chia sẻ và trang nhận yêu cầu), màu chủ đạo (8 màu gợi ý hoặc tự chọn, cảnh báo khi màu quá nhạt), khẩu hiệu, website. Logo và tên in ở dải đầu báo giá; màu áp vào tiêu đề, khung tổng tiền, tiêu đề bảng và ô ký tên |
 | Mã số thuế | Kiểm tra định dạng 10 số, 13 số (`0123456789-001`, chi nhánh) hoặc 12 số (CCCD dùng làm MST cá nhân). Chỉ kiểm độ dài, không kiểm chữ số kiểm tra |
 | Tính thuế | Có thuế GTGT (10%, 8%, 5%, 0%; đơn giá chưa gồm hoặc đã gồm VAT), hộ kinh doanh (không tách VAT), cá nhân khấu trừ thuế TNCN 10% |
 | Làm tròn | Làm tròn, làm tròn xuống, làm tròn lên; đến hàng 1, 10, 100 hoặc 1.000 đồng |
@@ -155,6 +156,7 @@ node ../test/e2e-local.mjs http://localhost:8787
 - Cookie HttpOnly, SameSite=Lax; request ghi từ trang khác (Origin không khớp) trả 403
 - Giới hạn request: 30 request ghi mỗi phút mỗi người truy cập, 5 link đăng nhập mỗi giờ mỗi email, yêu cầu báo giá 5 lần / 10 phút mỗi người và 100 lần / ngày mỗi đơn vị
 - CSP, `Referrer-Policy: no-referrer` (để địa chỉ link chia sẻ không lọt sang trang khác), chặn công cụ tìm kiếm lập chỉ mục trang chia sẻ và trang yêu cầu
+- Logo nhận đúng PNG, JPEG, WebP dạng data URL, tối đa 150.000 ký tự; không nhận SVG (tránh chèn script). Màu chỉ nhận dạng `#rrggbb`
 - Ảnh con dấu / chữ ký chỉ nằm trong localStorage của trình duyệt, không gửi lên máy chủ. Vì vậy link chia sẻ và trang in phía máy chủ không có ảnh này
 - Không gắn công cụ thống kê hay script bên thứ ba nào; chỉ tải font Be Vietnam Pro từ Google Fonts
 
@@ -165,7 +167,7 @@ node ../test/e2e-local.mjs http://localhost:8787
 | Dữ liệu | Mục đích | Thời gian lưu |
 |---|---|---|
 | Email đăng ký | Link đăng nhập, thông báo yêu cầu / chấp nhận báo giá | Đến khi xóa tài khoản. Không hoàn tất đăng nhập trong 7 ngày thì xóa |
-| Thông tin đơn vị, báo giá | Lưu, chia sẻ báo giá, trang nhận yêu cầu | Đến khi xóa tài khoản (xóa toàn bộ một lần) |
+| Thông tin đơn vị (kể cả logo, màu, khẩu hiệu, website), báo giá | Lưu, chia sẻ báo giá, trang nhận yêu cầu | Đến khi xóa tài khoản (xóa toàn bộ một lần) |
 | Yêu cầu báo giá (tên, liên hệ, nội dung, mã băm IP) | Đơn vị tư vấn và phản hồi; mã băm IP để chống gửi tràn | 1 năm kể từ ngày gửi, hoặc sớm hơn nếu đơn vị xóa |
 | Tên người chấp nhận báo giá (không bắt buộc) | Ghi nhận việc chấp nhận | Đến khi xóa báo giá hoặc tài khoản |
 | Đồng ý nhận email giới thiệu và thời điểm | Quyết định có gửi email giới thiệu không | Đến khi xóa tài khoản. Bản thân đồng ý tự tắt sau 2 năm |

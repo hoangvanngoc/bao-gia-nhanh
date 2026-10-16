@@ -201,3 +201,14 @@ fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .policy h2 { font-size: 18px; margin: 28px 0 8px; }
 .policy p, .policy li { color: var(--ink-2); }
 .policy ul { padding-left: 20px; }
+
+/* Thương hiệu */
+.field-label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.swatch { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line-2); cursor: pointer; padding: 0; }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--ink); }
+.swatch:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.swatches input[type="color"] { width: 44px; height: 34px; padding: 2px; cursor: pointer; }
+.seal-row img.logo-preview { width: auto; max-width: 160px; height: 44px; }
+.share-brand { display: flex; align-items: center; gap: 14px; }
+.share-brand img { max-height: 48px; max-width: 140px; object-fit: contain; }

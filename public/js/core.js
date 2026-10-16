@@ -183,6 +183,37 @@ export function calcQuote(q) {
 const str = (v, max) => String(v ?? "").replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, max);
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const SEAL = /^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/;
+const COLOR = /^#[0-9a-fA-F]{6}$/;
+
+/* ---------- Thương hiệu ---------- */
+
+/** Độ dài tối đa của logo (chuỗi data URL, khoảng 110KB ảnh) */
+export const LOGO_MAX = 150_000;
+/** Màu chủ đạo mặc định của mẫu báo giá */
+export const DEFAULT_BRAND = "#111111";
+/** Bảng màu gợi ý: đều đủ tương phản trên nền trắng */
+export const BRAND_SWATCHES = ["#111111", "#0f766e", "#1d4ed8", "#b4232a", "#c2410c", "#7e22ce", "#15803d", "#334155"]; // chữ thường, khớp cleanColor
+
+/** Logo hợp lệ (data URL png/jpeg/webp, không quá LOGO_MAX), không hợp lệ trả chuỗi rỗng */
+export function cleanLogo(v) {
+  return typeof v === "string" && v.length <= LOGO_MAX && SEAL.test(v) ? v : "";
+}
+
+/** Màu #rrggbb, không hợp lệ trả chuỗi rỗng */
+export function cleanColor(v) {
+  return typeof v === "string" && COLOR.test(v) ? v.toLowerCase() : "";
+}
+
+/** Tỷ lệ tương phản của màu với nền trắng (WCAG). Dưới 4.5 thì chữ màu này khó đọc */
+export function contrastOnWhite(hex) {
+  if (!COLOR.test(hex || "")) return 21;
+  const ch = [1, 3, 5].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  const lum = 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+  return 1.05 / (lum + 0.05);
+}
 
 export function normalizeQuote(input, { keepSeal = false } = {}) {
   const q = input && typeof input === "object" ? input : {};
@@ -209,6 +240,10 @@ export function normalizeQuote(input, { keepSeal = false } = {}) {
       phone: str(s.phone, 40),
       email: str(s.email, 120),
       bank: str(s.bank, 160),
+      website: str(s.website, 120),
+      tagline: str(s.tagline, 120),
+      brandColor: cleanColor(s.brandColor),
+      logo: cleanLogo(s.logo),
       seal: keepSeal && typeof s.seal === "string" && s.seal.length < 400_000 && SEAL.test(s.seal) ? s.seal : "",
     },
     client: {
@@ -313,7 +348,18 @@ export function renderQuoteHtml(q, opts = {}) {
     ? `<div class="accepted">Đã chấp nhận báo giá: ${esc(opts.acceptedAt)}${opts.acceptedName ? `, ${esc(opts.acceptedName)}` : ""}</div>`
     : "";
 
-  return `<article class="doc" lang="vi">
+  // Dải thương hiệu đầu trang: chỉ hiện khi có logo, khẩu hiệu hoặc website
+  const brandBar =
+    s.logo || s.tagline || s.website
+      ? `<header class="brand-bar">
+  ${s.logo ? `<img class="brand-logo" src="${esc(s.logo)}" alt="${esc(s.name)}">` : ""}
+  <div class="brand-text"><strong class="brand-name">${esc(s.name)}</strong>${s.tagline ? `<span class="brand-tagline">${esc(s.tagline)}</span>` : ""}${s.website ? `<span class="brand-web">${esc(s.website)}</span>` : ""}</div>
+</header>`
+      : "";
+  const brandStyle = s.brandColor ? ` style="--brand:${s.brandColor}"` : "";
+
+  return `<article class="doc" lang="vi"${brandStyle}>
+${brandBar}
 <header class="doc-head">
   <h1 class="doc-title">${esc(q.title || "BÁO GIÁ")}</h1>
   <dl class="doc-meta">

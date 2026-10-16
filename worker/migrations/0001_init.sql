@@ -45,6 +45,10 @@ CREATE TABLE businesses (
   phone TEXT NOT NULL DEFAULT '',
   email TEXT NOT NULL DEFAULT '',
   bank TEXT NOT NULL DEFAULT '',          -- tài khoản ngân hàng in trên báo giá
+  logo TEXT NOT NULL DEFAULT '',          -- logo dạng data URL (png/jpeg/webp, tối đa LOGO_MAX ký tự)
+  brand_color TEXT NOT NULL DEFAULT '',   -- màu chủ đạo #rrggbb, trống = mặc định
+  tagline TEXT NOT NULL DEFAULT '',       -- khẩu hiệu / mô tả ngắn in dưới tên
+  website TEXT NOT NULL DEFAULT '',       -- website / fanpage in trên báo giá
   notify_email TEXT NOT NULL DEFAULT '',  -- để trống thì gửi thông báo về email đăng nhập
   intro TEXT NOT NULL DEFAULT '',         -- lời giới thiệu trên trang nhận yêu cầu
   seq_date TEXT NOT NULL DEFAULT '',      -- ngày của số báo giá (YYYYMMDD, giờ Việt Nam)

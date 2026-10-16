@@ -1,5 +1,7 @@
 // Mèo Báo Giá: hộp báo giá
-import { esc, formatTaxCode, validateTaxCode, vnd } from "./core.js";
+import { brandPicker } from "./brand.js";
+import { esc, formatTaxCode, LOGO_MAX, validateTaxCode, vnd } from "./core.js";
+import { logoFromFile } from "./image.js";
 
 const $ = (s) => document.querySelector(s);
 const api = async (path, opts = {}) => {
@@ -13,7 +15,37 @@ const when = (iso) => {
   const p = (n) => String(n).padStart(2, "0");
   return `${p(d.getHours())}:${p(d.getMinutes())} ${p(d.getDate())}/${p(d.getMonth() + 1)}/${d.getFullYear()}`;
 };
-const BIZ_FIELDS = ["name", "owner", "taxCode", "address", "phone", "email", "bank", "notifyEmail", "intro"];
+const BIZ_FIELDS = ["name", "owner", "taxCode", "address", "phone", "email", "bank", "tagline", "website", "notifyEmail", "intro"];
+// Logo và màu không phải ô nhập chữ nên giữ riêng
+const brand = { logo: "", brandColor: "" };
+
+function renderLogo() {
+  const img = $("[data-logo-preview]");
+  img.hidden = !brand.logo;
+  $("[data-logo-clear]").hidden = !brand.logo;
+  if (brand.logo) img.src = brand.logo;
+}
+const refreshBrand = brandPicker($("[data-swatches]"), $("[data-color-hint]"), () => brand.brandColor, (c) => (brand.brandColor = c));
+
+$("[data-logo-file]").addEventListener("change", async (e) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  const hint = $("[data-logo-hint]");
+  try {
+    brand.logo = await logoFromFile(file, LOGO_MAX);
+    hint.className = "hint";
+    hint.textContent = 'Bấm "Lưu" để cập nhật logo.';
+  } catch (err) {
+    hint.className = "hint bad";
+    hint.textContent = err.message;
+  }
+  e.target.value = "";
+  renderLogo();
+});
+$("[data-logo-clear]").addEventListener("click", () => {
+  brand.logo = "";
+  renderLogo();
+});
 
 async function start() {
   fetch("/api/config")
@@ -40,6 +72,9 @@ function showBusiness(b) {
   const f = $("#biz-form").elements;
   if (b) for (const k of BIZ_FIELDS) f[k].value = b[k] ?? "";
   if (b) f.taxCode.value = formatTaxCode(b.taxCode);
+  if (b) Object.assign(brand, { logo: b.logo || "", brandColor: b.brandColor || "" });
+  renderLogo();
+  refreshBrand();
   $("[data-req-link]").innerHTML = b
     ? `<p class="sub small">Gắn địa chỉ này lên Facebook, Zalo OA, website hoặc bio Instagram. Khách tự gửi yêu cầu báo giá, có yêu cầu mới bạn sẽ nhận email.</p>
        <div class="copy-row"><input readonly value="${esc(b.requestUrl)}" aria-label="Địa chỉ trang nhận yêu cầu báo giá"><a class="btn small" href="${esc(b.requestUrl)}" target="_blank" rel="noopener">Mở</a></div>`
@@ -94,7 +129,7 @@ $("#biz-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target.elements;
   const msg = $("[data-biz-msg]");
-  const body = Object.fromEntries(BIZ_FIELDS.map((k) => [k, f[k].value]));
+  const body = { ...Object.fromEntries(BIZ_FIELDS.map((k) => [k, f[k].value])), ...brand };
   if (body.taxCode && !validateTaxCode(body.taxCode)) {
     msg.className = "msg bad";
     msg.textContent = "Mã số thuế phải có 10, 12 hoặc 13 chữ số";

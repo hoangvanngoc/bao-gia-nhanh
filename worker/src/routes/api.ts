@@ -1,7 +1,7 @@
 // Mèo Báo Giá: JSON API (đăng ký, đăng nhập, thông tin đơn vị, lưu / chia sẻ / chấp nhận báo giá, yêu cầu báo giá)
 import { Hono } from "hono";
 import type { AppEnv, Env } from "../env";
-import { calcQuote, checkQuote, digitsOnly, normalizeQuote, renderQuoteHtml, validateTaxCode, vnd } from "../../../public/js/core.js";
+import { calcQuote, checkQuote, cleanColor, cleanLogo, digitsOnly, normalizeQuote, renderQuoteHtml, validateTaxCode, vnd } from "../../../public/js/core.js";
 import { createLoginToken, logout, requireAccount } from "../lib/auth";
 import { marketingActive } from "../lib/consent";
 import { mailProvider, sendMail } from "../lib/mail";
@@ -84,12 +84,16 @@ type BizRow = {
   phone: string;
   email: string;
   bank: string;
+  logo: string;
+  brand_color: string;
+  tagline: string;
+  website: string;
   notify_email: string;
   intro: string;
 };
 
 const bizOf = (env: Env, accountId: string) =>
-  env.DB.prepare("SELECT id, slug, name, owner, tax_code, address, phone, email, bank, notify_email, intro FROM businesses WHERE account_id = ?")
+  env.DB.prepare("SELECT id, slug, name, owner, tax_code, address, phone, email, bank, logo, brand_color, tagline, website, notify_email, intro FROM businesses WHERE account_id = ?")
     .bind(accountId)
     .first<BizRow>();
 
@@ -102,6 +106,10 @@ const bizJson = (b: BizRow, base: string) => ({
   phone: b.phone,
   email: b.email,
   bank: b.bank,
+  logo: b.logo,
+  brandColor: b.brand_color,
+  tagline: b.tagline,
+  website: b.website,
   notifyEmail: b.notify_email,
   intro: b.intro,
   requestUrl: `${base}/r/${b.slug}`,
@@ -151,11 +159,16 @@ function readBusiness(b: Record<string, unknown>) {
     phone: clean(b.phone, 40),
     email: clean(b.email, 120),
     bank: clean(b.bank, 160),
+    logo: cleanLogo(b.logo),
+    brandColor: cleanColor(b.brandColor),
+    tagline: clean(b.tagline, 120),
+    website: clean(b.website, 120),
     notifyEmail: clean(b.notifyEmail, 254).toLowerCase(),
     intro: clean(b.intro, 500),
   };
   if (!v.name) return { error: "Hãy nhập tên đơn vị" };
   if (v.taxCode && !validateTaxCode(v.taxCode)) return { error: "Mã số thuế phải có 10, 12 hoặc 13 chữ số" };
+  if (b.logo && !v.logo) return { error: "Logo không hợp lệ hoặc quá lớn" };
   if (v.notifyEmail && !EMAIL_RE.test(v.notifyEmail)) return { error: "Hãy kiểm tra lại email nhận thông báo" };
   return { v };
 }
@@ -165,15 +178,15 @@ async function upsertBusiness(env: Env, accountId: string, v: NonNullable<Return
   const existing = await bizOf(env, accountId);
   if (existing) {
     await env.DB.prepare(
-      "UPDATE businesses SET name=?, owner=?, tax_code=?, address=?, phone=?, email=?, bank=?, notify_email=?, intro=?, updated_at=? WHERE id=?",
+      "UPDATE businesses SET name=?, owner=?, tax_code=?, address=?, phone=?, email=?, bank=?, logo=?, brand_color=?, tagline=?, website=?, notify_email=?, intro=?, updated_at=? WHERE id=?",
     )
-      .bind(v.name, v.owner, v.taxCode, v.address, v.phone, v.email, v.bank, v.notifyEmail, v.intro, now, existing.id)
+      .bind(v.name, v.owner, v.taxCode, v.address, v.phone, v.email, v.bank, v.logo, v.brandColor, v.tagline, v.website, v.notifyEmail, v.intro, now, existing.id)
       .run();
   } else {
     await env.DB.prepare(
-      "INSERT INTO businesses (id, account_id, slug, name, owner, tax_code, address, phone, email, bank, notify_email, intro, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO businesses (id, account_id, slug, name, owner, tax_code, address, phone, email, bank, logo, brand_color, tagline, website, notify_email, intro, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
     )
-      .bind(randomId(), accountId, randomSlug(), v.name, v.owner, v.taxCode, v.address, v.phone, v.email, v.bank, v.notifyEmail, v.intro, now, now)
+      .bind(randomId(), accountId, randomSlug(), v.name, v.owner, v.taxCode, v.address, v.phone, v.email, v.bank, v.logo, v.brandColor, v.tagline, v.website, v.notifyEmail, v.intro, now, now)
       .run();
   }
   return (await bizOf(env, accountId))!;
