@@ -1,0 +1,31 @@
+node_modules/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+*.pem
+*.key
+secrets/
+*.log
+.DS_Store
+worker/worker-configuration.d.ts
+# Cấu hình triển khai thật (database_id, địa chỉ thật). Repo chỉ giữ wrangler.toml
+wrangler.prod.toml
+
+# Cấu hình và dấu vết làm việc của công cụ AI (không đưa lên repo)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.cursor/
+.cursorrules
+.continue/
+.aider*
+.windsurf/
+.codeium/
+.mcp.json
+*.ai-prompt
+*.ai-draft
+ai-scratchpad/

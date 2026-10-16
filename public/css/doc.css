@@ -1,0 +1,76 @@
+/* Mèo Báo Giá: mẫu báo giá một trang A4, dùng chung cho màn hình và bản in */
+@page { size: A4; margin: 0; }
+
+.doc {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 16mm 14mm 14mm;
+  background: #fff;
+  color: #111;
+  font-family: "Be Vietnam Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.45;
+  overflow-wrap: break-word;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.doc table { border-collapse: collapse; width: 100%; }
+.doc th, .doc td { border: 1px solid #3a3a3a; padding: 1.6mm 2mm; vertical-align: middle; text-align: left; }
+.doc th { background: #F1F1EF; font-weight: 600; white-space: nowrap; }
+.doc .n { text-align: right; white-space: nowrap; }
+.doc .c { text-align: center; }
+
+.doc-head { display: flex; flex-direction: column; align-items: center; gap: 4mm; margin-bottom: 6mm; }
+.doc-title { margin: 0; font-size: 24pt; font-weight: 800; letter-spacing: .12em; padding-left: .12em; border-bottom: 3px double #111; line-height: 1.3; }
+.doc-meta { display: flex; gap: 8mm; margin: 0; font-size: 9pt; }
+.doc-meta div { display: flex; gap: 2mm; }
+.doc-meta dt { color: #555; }
+.doc-meta dd { margin: 0; font-weight: 600; }
+
+.parties { display: grid; grid-template-columns: 1fr 1.15fr; gap: 4mm; margin-bottom: 4mm; align-items: start; }
+.party caption { caption-side: top; text-align: left; font-weight: 800; font-size: 10pt; padding-bottom: 1.5mm; text-transform: uppercase; }
+.party th { width: 24mm; }
+.party .to { font-size: 11pt; font-weight: 700; }
+.party .lead-in { border: 0; padding-top: 3mm; color: #333; font-style: italic; }
+
+.grand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1mm 4mm; border: 2px solid #111; padding: 3mm 4mm; margin-bottom: 4mm; }
+.grand-label { font-weight: 800; text-transform: uppercase; }
+.grand-num { font-size: 13pt; }
+.grand-note { color: #333; }
+.grand-words { flex-basis: 100%; font-style: italic; }
+
+.items thead th { text-align: center; }
+.items tbody td { height: 7.5mm; }
+.items tr.blank td { color: transparent; }
+
+.foot { display: grid; grid-template-columns: 1fr 74mm; gap: 4mm; margin-top: 4mm; align-items: start; }
+.notes { border: 1px solid #3a3a3a; min-height: 26mm; padding: 2mm 3mm; }
+.notes h2 { margin: 0 0 1mm; font-size: 9.5pt; }
+.notes p { margin: 0; white-space: normal; }
+.sums th { width: 40mm; }
+.sums .strong th, .sums .strong td { font-weight: 800; font-size: 10.5pt; background: #F1F1EF; }
+
+.sign { display: flex; justify-content: flex-end; margin-top: 6mm; }
+.sign-box { width: 74mm; text-align: center; }
+.sign-box p { margin: 0; }
+.sign-date { font-style: italic; color: #333; margin-bottom: 1mm !important; }
+.sign-role { font-weight: 800; text-transform: uppercase; }
+.sign-hint { font-style: italic; color: #555; font-size: 8.5pt; }
+.sign-space { height: 24mm; display: flex; align-items: center; justify-content: center; }
+.seal { max-width: 26mm; max-height: 24mm; object-fit: contain; mix-blend-mode: multiply; }
+.sign-name { font-weight: 700; }
+
+.accepted { margin-top: 5mm; display: inline-block; border: 2px solid #B4232A; color: #B4232A; font-weight: 800; padding: 2mm 4mm; }
+
+@media print {
+  html, body { background: #fff !important; margin: 0 !important; }
+  .no-print { display: none !important; }
+  .wrap, .workspace, .preview, .share-main, .print-page { display: block !important; padding: 0 !important; margin: 0 !important; max-width: none !important; position: static !important; background: #fff !important; }
+  .wrap.no-print { display: none !important; } /* đặt sau quy tắc .wrap ở trên để vẫn ẩn khi in */
+  .sheet { transform: none !important; width: auto !important; margin: 0 !important; }
+  .sheet-scroll { height: auto !important; overflow: visible !important; border: 0 !important; border-radius: 0 !important; margin: 0 !important; background: #fff !important; }
+  .doc { box-shadow: none !important; min-height: 0; }
+}

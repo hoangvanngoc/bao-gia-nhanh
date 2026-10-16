@@ -1,0 +1,41 @@
+# Mèo Báo Giá: cấu hình Worker
+name = "meo-bao-gia"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# Trình soạn, hộp báo giá, CSS mẫu báo giá, script giao diện
+[assets]
+directory = "../public"
+
+# Tài khoản, thông tin đơn vị, báo giá, yêu cầu báo giá
+# Khi cài, thay bằng database_id lấy từ lệnh: npx wrangler d1 create meo-bao-gia
+[[d1_databases]]
+binding = "DB"
+database_name = "meo-bao-gia"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# Mỗi người truy cập tối đa 30 request ghi mỗi phút
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "2001"
+simple = { limit = 30, period = 60 }
+
+# 10 giờ sáng giờ Việt Nam (03:00 UTC) mỗi ngày: xóa yêu cầu báo giá và email chưa xác minh đã quá hạn, tắt đồng ý nhận email quá 2 năm
+[triggers]
+crons = ["0 3 * * *"]
+
+[vars]
+APP_NAME = "Mèo Báo Giá"
+# Tên bên gửi email xác nhận đồng ý nhận email giới thiệu. Để trống thì dùng APP_NAME
+OPERATOR_NAME = ""
+# Địa chỉ chạy thật (ví dụ https://baogia.example.com), dùng cho link trong email do tác vụ định kỳ gửi. Để trống thì gửi không kèm link
+APP_URL = ""
+# Link cho nút "Mã nguồn" và dòng "Liên hệ" trong email. Đổi thành repo hoặc trang liên hệ của bạn
+CTA_URL = "https://github.com/your-account/meo-bao-gia"
+# Link "chính sách bảo vệ dữ liệu cá nhân". Để trống thì dùng trang mẫu /privacy.html (nhớ sửa nội dung trang đó)
+PRIVACY_URL = ""
+# Địa chỉ gửi email. Dùng Gmail API thì là địa chỉ tài khoản Google đó, dùng Resend thì là địa chỉ thuộc tên miền đã xác minh
+MAIL_FROM = "Mèo Báo Giá <onboarding@resend.dev>"
+# 1 = khi chưa cấu hình gửi email thì trả link đăng nhập ngay trong phản hồi. Chỉ dùng khi chạy thử trên máy, môi trường thật bắt buộc là 0
+DEV_MODE = "0"

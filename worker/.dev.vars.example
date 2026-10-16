@@ -1,0 +1,10 @@
+# Mèo Báo Giá: biến bí mật khi chạy thử trên máy. Chép file này thành .dev.vars rồi điền (không đưa .dev.vars lên repo)
+# Môi trường thật dùng: npx wrangler secret put <TÊN>
+
+# Email đăng nhập, thông báo yêu cầu / chấp nhận báo giá. Không có cả Gmail lẫn Resend thì chỉ ghi log
+# 1) Gmail API (Google Workspace): đủ ba giá trị thì dùng cách này. Chỉ cấp quyền gmail.send
+GMAIL_CLIENT_ID=
+GMAIL_CLIENT_SECRET=
+GMAIL_REFRESH_TOKEN=
+# 2) Resend: dùng khi không có Gmail
+RESEND_API_KEY=
