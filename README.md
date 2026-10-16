@@ -4,6 +4,8 @@
 
 Làm báo giá trong một phút, không cần đăng ký.
 
+![Giao diện Báo Giá Nhanh: soạn báo giá bên trái, xem trước A4 bên phải](docs/screenshot.png)
+
 Công cụ làm báo giá mã nguồn mở cho hộ kinh doanh, doanh nghiệp nhỏ và freelancer Việt Nam. Nhập hạng mục là có ngay một trang báo giá A4, in hoặc lưu PDF từ hộp thoại in của trình duyệt. Gửi báo giá bằng link để khách bấm "Chấp nhận", và mỗi đơn vị có một trang riêng để khách tự gửi yêu cầu báo giá.
 
 - Soạn và in báo giá: miễn phí, không cần đăng ký
@@ -191,12 +193,8 @@ node ../test/e2e-local.mjs http://localhost:8787
 - Chưa sửa được báo giá đã lưu; sửa thì lưu thành báo giá mới với số mới
 - Chưa xuất hóa đơn điện tử (báo giá không phải hóa đơn)
 
-## Nguồn gốc
-
-Báo Giá Nhanh được Việt hóa từ dự án mã nguồn mở [gyeonjeok-meo](https://github.com/johndefine404/gyeonjeok-meo) của Define404 (giấy phép MIT). Thông báo bản quyền gốc được giữ trong `LICENSE`.
-
 ---
 
 ## English
 
-Báo Giá Nhanh is an open-source quotation generator for Vietnamese household businesses, small companies and freelancers. It validates the tax code format (10, 13 or 12 digits), computes VAT at 10%, 8%, 5% or 0% (exclusive or inclusive), handles household businesses that do not itemize VAT and the 10% personal income tax withholding for individuals (from 2,000,000 VND), writes the amount in Vietnamese words, and prints a single A4 page via CSS `@page`. Signed-up users get share links with an "accept" button and a per-business quote request page. Passwordless email login (magic link), hashed tokens, per-account scoping, rate limits. Runs on Cloudflare Workers (Hono) + D1. Mail via the Gmail API or Resend. Tax rules are assumptions, not tax advice. MIT licensed; adapted from Define404's gyeonjeok-meo.
+Báo Giá Nhanh is an open-source quotation generator for Vietnamese household businesses, small companies and freelancers. It validates the tax code format (10, 13 or 12 digits), computes VAT at 10%, 8%, 5% or 0% (exclusive or inclusive), handles household businesses that do not itemize VAT and the 10% personal income tax withholding for individuals (from 2,000,000 VND), writes the amount in Vietnamese words, and prints a single A4 page via CSS `@page`. Signed-up users get share links with an "accept" button and a per-business quote request page. Passwordless email login (magic link), hashed tokens, per-account scoping, rate limits. Runs on Cloudflare Workers (Hono) + D1. Mail via the Gmail API or Resend. Tax rules are assumptions, not tax advice. MIT licensed.
